@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 4 {
+	if len(os.Args) < 2 {
 		fmt.Printf("Gunakan todo [add][list][done][delete]")
 		return
 	}
@@ -15,6 +15,10 @@ func main() {
 	switch command {
 	case "add":
 		//func add()
+		if len(os.Args) < 4 {
+			fmt.Printf("Gunakan todo add [title] [description]")
+			return
+		}
 		fmt.Printf("add todo")
 		title := os.Args[2]
 		description := os.Args[3]
@@ -27,6 +31,10 @@ func main() {
 
 	case "list":
 		//func list()
+		err := task.ListTasks()
+		if err != nil {
+			fmt.Printf("Error listing tasks: %v", err)
+		}
 		fmt.Printf("list todo")
 	case "done":
 		//func done()
@@ -36,6 +44,5 @@ func main() {
 		fmt.Printf("delete todo")
 	default:
 		fmt.Printf("Gunakan todo [add][list][done][delete]")
-
 	}
 }
