@@ -48,6 +48,20 @@ func AddTask(title, description string) error {
 	tasks = append(tasks, newTask)
 	return saveTasks(tasks)
 }
+func UpdateTask(id int, title, description string) error {
+	tasks, err := loadTasks()
+	if err != nil {
+		return err
+	}
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks[i].Title = title
+			tasks[i].Description = description
+			return saveTasks(tasks)
+		}
+	}
+	return nil
+}
 
 func ListTasks() error {
 	tasks, err := loadTasks()

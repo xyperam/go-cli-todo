@@ -73,6 +73,27 @@ func main() {
 			return
 		}
 		fmt.Printf("Task with ID %d deleted\n", id)
+	case "update":
+		//func update()
+		if len(os.Args) < 5 {
+			fmt.Printf("Gunakan todo update [id] [title] [description]")
+			return
+		}
+		idstr := os.Args[2]
+		id, err := strconv.Atoi(idstr)
+		if err != nil {
+			fmt.Printf("Error converting id to int: %v", err)
+			return
+		}
+		title := os.Args[3]
+		description := os.Args[4]
+		err = task.UpdateTask(id, title, description)
+		if err != nil {
+			fmt.Printf("Error updating task: %v", err)
+			return
+		}
+		fmt.Printf("Task with ID %d updated| title: %s  Description: %s", id, title, description)
+
 	default:
 		fmt.Printf("Gunakan todo [add][list][done][delete]")
 	}
