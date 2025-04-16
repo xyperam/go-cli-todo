@@ -55,11 +55,39 @@ func ListTasks() error {
 		return err
 	}
 	if len(tasks) == 0 {
-		fmt.Sprint("tasks not found")
+		fmt.Sprintf("tasks not found")
 		return nil
 	}
 	for _, task := range tasks {
 		fmt.Printf("ID: %d, Title: %s, Description: %s, Done: %t\n", task.ID, task.Title, task.Description, task.Done)
 	}
 	return nil
+}
+
+func DoneTask(id int) error {
+	tasks, err := loadTasks()
+	if err != nil {
+		return err
+	}
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks[i].Done = true
+			fmt.Sprintf("Task with ID %d marked as done\n", id)
+			return saveTasks(tasks)
+		}
+	}
+	return fmt.Errorf("task with ID %d not found", id)
+}
+func DeleteTask(id int) error {
+	tasks, err := loadTasks()
+	if err != nil {
+		return err
+	}
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks = append(tasks[:i], tasks[i+1:]...)
+			return saveTasks(tasks)
+		}
+	}
+	return fmt.Errorf("task with ID %d not found", id)
 }

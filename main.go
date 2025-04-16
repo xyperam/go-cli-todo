@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-todo/task"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -38,10 +39,40 @@ func main() {
 		fmt.Printf("list todo")
 	case "done":
 		//func done()
-		fmt.Printf("done todo")
+		if len(os.Args) < 3 {
+			fmt.Printf("Gunakan todo done [id]")
+			return
+		}
+		idstr := os.Args[2]
+		id, err := strconv.Atoi(idstr)
+		if err != nil {
+			fmt.Printf("Error converting id to int: %v", err)
+			return
+		}
+		err = task.DoneTask(id)
+		if err != nil {
+			fmt.Printf("Error marking task as done: %v", err)
+			return
+		}
+		fmt.Printf("Task with ID %d marked as done\n", id)
 	case "delete":
 		//func delete()
-		fmt.Printf("delete todo")
+		if len(os.Args) < 3 {
+			fmt.Printf("Gunakan todo delete [id]")
+			return
+		}
+		idstr := os.Args[2]
+		id, err := strconv.Atoi(idstr)
+		if err != nil {
+			fmt.Printf("Error converting id to int: %v", err)
+			return
+		}
+		err = task.DeleteTask(id)
+		if err != nil {
+			fmt.Printf("Error deleting task: %v", err)
+			return
+		}
+		fmt.Printf("Task with ID %d deleted\n", id)
 	default:
 		fmt.Printf("Gunakan todo [add][list][done][delete]")
 	}
